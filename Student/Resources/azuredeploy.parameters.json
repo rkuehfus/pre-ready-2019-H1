@@ -3,7 +3,7 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "envPrefixName": {
-      "value": "<your prefix here>"
+      "value": "enter a 5 charactor value here all lowercase"
     },
     "username": {
       "value": "vmadmin"
