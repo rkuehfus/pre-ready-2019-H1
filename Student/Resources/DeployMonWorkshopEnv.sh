@@ -13,7 +13,7 @@ declare location="eastus"
 az group create --name $monitoringWorkShopName -l $location
 
 #Step 3: Create Key Vault and set flag to enable for template deployment with ARM
-declare vaultSuffix="MonitoringWorkShopVault"
+declare vaultSuffix="MonWorkshopVault"
 declare monitoringWorkShopVaultName="$monitoringWorkShopName$vaultSuffix" 
 az keyvault create --name $monitoringWorkShopVaultName -g $monitoringWorkShopName -l $location --enabled-for-template-deployment true
 

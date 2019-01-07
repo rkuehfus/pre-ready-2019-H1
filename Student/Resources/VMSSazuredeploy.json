@@ -16,7 +16,7 @@
             "metadata": {
                 "description": "The base URI where artifacts required by this template are located."
             },
-            "defaultValue": "https://raw.githubusercontent.com/rkuehfus/pre-ready-2019-H1/master/"
+            "defaultValue": "https://raw.githubusercontent.com/rkuehfus/pre-ready-2019-H1/master/Student/Resources/"
         },
         "retentionPolicy": {
             "type": "int",
@@ -244,7 +244,7 @@
         "lbPoolID": "[concat(variables('webLbId'),'/backendAddressPools/BackendPool1')]",
         "lbProbeID": "[concat(variables('webLbId'),'/probes/tcpProbe')]",
         "storageAccountName": "[concat(uniquestring(resourceGroup().id), 'mondiagact')]",
-        "SecurityKeyVaultName": "[concat(parameters('envPrefixName'),'MonitoringHackVault')]",
+        "SecurityKeyVaultName": "[concat(parameters('envPrefixName'),'MonWorkshopVault')]",
         "accountid": "[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName'))]"
     },
     "resources": [
@@ -897,24 +897,6 @@
                 },
                 "protectedSettings": {
                     "workspaceKey": "[reference('LogAnalyticsDeployment').outputs.LAworkSpaceKey.value]"
-                }
-            }
-        },
-        {
-            "type": "Microsoft.Compute/virtualMachines/extensions",
-            "name": "[concat(parameters('envPrefixName'), 'sqlSrv16/WADExtensionSetup')]",
-            "apiVersion": "2015-05-01-preview",
-            "location": "[resourceGroup().location]",
-            "dependsOn": [
-                "[concat('Microsoft.Compute/virtualMachines/', parameters('envPrefixName'), 'sqlSrv16')]"
-            ],
-            "properties": {
-                "publisher": "Microsoft.ManagedIdentity",
-                "type": "ManagedIdentityExtensionForWindows",
-                "typeHandlerVersion": "1.0",
-                "autoUpgradeMinorVersion": true,
-                "settings": {
-                    "port": 50342
                 }
             }
         },
