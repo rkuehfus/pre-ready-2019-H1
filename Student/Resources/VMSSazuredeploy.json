@@ -684,17 +684,17 @@
         {
             "name": "[concat(parameters('envPrefixName'), 'sqlSrv16')]",
             "type": "Microsoft.Compute/virtualMachines",
-            "location": "[resourceGroup().location]",
+            "location": "[parameters('location')]",
             "apiVersion": "2017-03-30",
+            "identity": {  
+                "type": "SystemAssigned" 
+                },             
             "dependsOn": [
                 "[concat('Microsoft.Network/networkInterfaces/', variables('sqlSrvDBNicName'))]",
                 "[concat('Microsoft.Network/publicIPAddresses/', variables('sqlPublicIP'))]"
             ],
             "tags": {
                 "displayName": "SQL-Svr-DB"
-            },
-            "identity": {
-                "type": "SystemAssigned"
             },
             "properties": {
                 "hardwareProfile": {
@@ -727,135 +727,114 @@
                             "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('sqlSrvDBNicName'))]"
                         }
                     ]
-                },
-                "diagnosticsProfile": {
-                    "bootDiagnostics": {
-                        "enabled": true,
-                        "storageUri": "[reference(resourceId('Microsoft.Storage/storageAccounts/', variables('storageAccountName'))).primaryEndpoints.blob]"
-                    }
                 }
             },
-            "resources": [
-                {
-                    "type": "extensions",
-                    "name": "Microsoft.Insights.VMDiagnosticsSettings",
-                    "apiVersion": "2015-05-01-preview",
-                    "location": "[resourceGroup().location]",
-                    "dependsOn": [
-                        "[concat('Microsoft.Compute/virtualMachines/', concat(parameters('envPrefixName'), 'sqlSrv16'))]"
-                    ],
-                    "properties": {
-                        "publisher": "Microsoft.Azure.Diagnostics",
-                        "type": "IaaSDiagnostics",
-                        "typeHandlerVersion": "1.4",
-                        "autoUpgradeMinorVersion": true,
-                        "settings": {
-                            "WadCfg": {
-                                "DiagnosticMonitorConfiguration": {
-                                    "overallQuotaInMB": 4096,
-                                    "DiagnosticInfrastructureLogs": {
-                                        "scheduledTransferLogLevelFilter": "Error"
-                                    },
-                                    "Directories": {
-                                        "scheduledTransferPeriod": "PT1M",
-                                        "IISLogs": {
-                                            "containerName": "wad-iis-logfiles"
-                                        },
-                                        "FailedRequestLogs": {
-                                            "containerName": "wad-failedrequestlogs"
-                                        }
-                                    },
-                                    "PerformanceCounters": {
-                                        "scheduledTransferPeriod": "PT1M",
-                                        "sinks": "AzMonSink",
-                                        "PerformanceCounterConfiguration": [
-                                            {
-                                                "counterSpecifier": "\\Memory\\Available Bytes",
-                                                "sampleRate": "PT15S"
-                                            },
-                                            {
-                                                "counterSpecifier": "\\Memory\\% Committed Bytes In Use",
-                                                "sampleRate": "PT15S"
-                                            },
-                                            {
-                                                "counterSpecifier": "\\Memory\\Committed Bytes",
-                                                "sampleRate": "PT15S"
-                                            }
-                                        ]
-                                    },
-                                    "WindowsEventLog": {
-                                        "scheduledTransferPeriod": "PT1M",
-                                        "DataSource": [
-                                            {
-                                                "name": "Application!*"
-                                            }
-                                        ]
-                                    },
-                                    "Logs": {
-                                        "scheduledTransferPeriod": "PT1M",
-                                        "scheduledTransferLogLevelFilter": "Error"
-                                    }
-                                },
-                                "SinksConfig": {
-                                    "Sink": [
-                                        {
-                                            "name": "AzMonSink",
-                                            "AzureMonitor": {}
-                                        }
-                                    ]
-                                }
-                            },
-                            "StorageAccount": "[variables('storageAccountName')]"
-                        },
-                        "protectedSettings": {
-                            "storageAccountName": "[variables('storageAccountName')]",
-                            "storageAccountKey": "[listKeys(variables('accountid'),'2015-06-15').key1]",
-                            "storageAccountEndPoint": "https://core.windows.net/"
-                        }
-                    }
-                },
-                {
-                    "type": "extensions",
-                    "name": "WADExtensionSetup",
-                    "apiVersion": "2015-05-01-preview",
-                    "location": "[resourceGroup().location]",
-                    "dependsOn": [
-                        "[concat('Microsoft.Compute/virtualMachines/', concat(parameters('envPrefixName'), 'sqlSrv16'))]"
-                    ],
-                    "properties": {
-                        "publisher": "Microsoft.ManagedIdentity",
-                        "type": "ManagedIdentityExtensionForWindows",
-                        "typeHandlerVersion": "1.0",
-                        "autoUpgradeMinorVersion": true,
-                        "settings": {
-                            "port": 50342
-                        }
-                    }
-                }
-            ]
+            "resources": []
         },
         {
             "type": "Microsoft.Compute/virtualMachines/extensions",
-            "name": "[concat(parameters('envPrefixName'), 'sqlSrv16/DependencyAgent')]",
-            "apiVersion": "2017-03-30",
+            "name": "[concat(parameters('envPrefixName'), 'sqlSrv16/WADExtensionSetup')]",
+            "apiVersion": "2015-06-15",
             "location": "[resourceGroup().location]",
             "dependsOn": [
                 "[concat('Microsoft.Compute/virtualMachines/', parameters('envPrefixName'), 'sqlSrv16')]",
-                "[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName'))]",
-                "[resourceId('Microsoft.Compute/virtualMachines/extensions',concat(parameters('envPrefixName'),'sqlSrv16'),'laPolicy')]"
+                "[resourceId('Microsoft.Compute/virtualMachines/extensions', concat(parameters('envPrefixName'), 'sqlSrv16'),'SqlIaasExtension')]"
             ],
             "properties": {
-                "publisher": "Microsoft.Azure.Monitoring.DependencyAgent",
-                "type": "DependencyAgentWindows",
-                "typeHandlerVersion": "9.4",
-                "autoUpgradeMinorVersion": true
+                "publisher": "Microsoft.ManagedIdentity",
+                "type": "ManagedIdentityExtensionForWindows",
+                "typeHandlerVersion": "1.0",
+                "autoUpgradeMinorVersion": true,
+                "settings": {
+                    "port": 50342
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Compute/virtualMachines/extensions",
+            "name": "[concat(parameters('envPrefixName'), 'sqlSrv16/VMDiagnosticsSettings')]",
+            "apiVersion": "2015-06-15",
+            "location": "[resourceGroup().location]",
+            "dependsOn": [
+                "[concat('Microsoft.Compute/virtualMachines/', parameters('envPrefixName'), 'sqlSrv16')]",
+                "[resourceId('Microsoft.Compute/virtualMachines/extensions', concat(parameters('envPrefixName'), 'sqlSrv16'),'SqlIaasExtension')]",
+                "[resourceId('Microsoft.Compute/virtualMachines/extensions', concat(parameters('envPrefixName'), 'sqlSrv16'),'WADExtensionSetup')]"
+            ],
+            "properties": {
+                "publisher": "Microsoft.Azure.Diagnostics",
+                "type": "IaaSDiagnostics",
+                "typeHandlerVersion": "1.5",
+                "autoUpgradeMinorVersion": true,
+                "settings": {
+                    "WadCfg": {
+                        "DiagnosticMonitorConfiguration": {
+                            "overallQuotaInMB": 4096,
+                            "DiagnosticInfrastructureLogs": {
+                                "scheduledTransferLogLevelFilter": "Error"
+                            },
+                            "Directories": {
+                                "scheduledTransferPeriod": "PT1M",
+                                "IISLogs": {
+                                    "containerName": "wad-iis-logfiles"
+                                },
+                                "FailedRequestLogs": {
+                                    "containerName": "wad-failedrequestlogs"
+                                }
+                            },
+                            "PerformanceCounters": {
+                                "scheduledTransferPeriod": "PT1M",
+                                "sinks": "AzMonSink",
+                                "PerformanceCounterConfiguration": [
+                                    {
+                                        "counterSpecifier": "\\Memory\\Available Bytes",
+                                        "sampleRate": "PT15S"
+                                    },
+                                    {
+                                        "counterSpecifier": "\\Memory\\% Committed Bytes In Use",
+                                        "sampleRate": "PT15S"
+                                    },
+                                    {
+                                        "counterSpecifier": "\\Memory\\Committed Bytes",
+                                        "sampleRate": "PT15S"
+                                    }
+                                ]
+                            },
+                            "WindowsEventLog": {
+                                "scheduledTransferPeriod": "PT1M",
+                                "DataSource": [
+                                    {
+                                        "name": "Application!*"
+                                    }
+                                ]
+                            },
+                            "Logs": {
+                                "scheduledTransferPeriod": "PT1M",
+                                "scheduledTransferLogLevelFilter": "Error"
+                            }
+                        },
+                        "SinksConfig": {
+                            "Sink": [
+                                {
+                                    "name": "AzMonSink",
+                                    "AzureMonitor": {}
+                                }
+                            ]
+                        }
+                    },
+                    "StorageAccount": "[variables('storageAccountName')]"
+                },
+                "protectedSettings": {
+                    "storageAccountName": "[variables('storageAccountName')]",
+                    "storageAccountKey": "[listKeys(variables('accountid'),'2015-06-15').key1]",
+                    "storageAccountEndPoint": "https://core.windows.net/"
+                }
             }
         },
         {
             "apiVersion": "2015-06-15",
             "type": "Microsoft.Compute/virtualMachines/extensions",
             "name": "[concat(parameters('envPrefixName'), 'sqlSrv16/SqlIaasExtension')]",
-            "location": "[resourceGroup().location]",
+            "location": "[parameters('location')]",
             "dependsOn": [
                 "[concat('Microsoft.Compute/virtualMachines/', parameters('envPrefixName'), 'sqlSrv16')]"
             ],
@@ -890,6 +869,23 @@
                     "SQLAuthUpdateUserName": "[parameters('sqlAuthenticationLogin')]",
                     "SQLAuthUpdatePassword": "[parameters('password')]"
                 }
+            }
+        },
+        {
+            "type": "Microsoft.Compute/virtualMachines/extensions",
+            "name": "[concat(parameters('envPrefixName'), 'sqlSrv16/DependencyAgent')]",
+            "apiVersion": "2017-03-30",
+            "location": "[resourceGroup().location]",
+            "dependsOn": [
+                "[concat('Microsoft.Compute/virtualMachines/', parameters('envPrefixName'), 'sqlSrv16')]",
+                "[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName'))]",
+                "[resourceId('Microsoft.Compute/virtualMachines/extensions',concat(parameters('envPrefixName'),'sqlSrv16'),'laPolicy')]"
+            ],
+            "properties": {
+                "publisher": "Microsoft.Azure.Monitoring.DependencyAgent",
+                "type": "DependencyAgentWindows",
+                "typeHandlerVersion": "9.4",
+                "autoUpgradeMinorVersion": true
             }
         },
         {
