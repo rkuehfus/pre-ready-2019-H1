@@ -482,6 +482,20 @@
                         }
                     },
                     {
+                        "name": "Allow_AKS",
+                        "properties": {
+                            "description": "Allow AKS Subnet",
+                            "protocol": "Tcp",
+                            "sourcePortRange": "*",
+                            "destinationPortRange": "1433",
+                            "sourceAddressPrefix": "10.0.3.0/24",
+                            "destinationAddressPrefix": "*",
+                            "access": "Allow",
+                            "priority": 101,
+                            "direction": "Inbound"
+                        }
+                    },
+                    {
                         "name": "rdp_rule",
                         "properties": {
                             "description": "Allow RDP",
