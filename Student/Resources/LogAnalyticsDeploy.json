@@ -95,7 +95,7 @@
             "location": "[parameters('WorkspaceLocation')]",
             "properties": {
                 "sku": {
-                    "name": "pergb2018"
+                    "name": "Standalone"
                 },
                 "retentionInDays": "[parameters('retentionPolicy')]"
             },
