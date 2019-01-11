@@ -14,7 +14,7 @@ az group create --name $monitoringWorkShopName -l $location
 
 #Step 3: Create Key Vault and set flag to enable for template deployment with ARM
 declare vaultSuffix="MonWorkshopVault"
-declare monitoringWorkShopVaultName="$monitoringWorkShopName$vaultSuffix" 
+declare monitoringWorkShopVaultName="$vaultSuffix$monitoringWorkShopName" 
 az keyvault create --name $monitoringWorkShopVaultName -g $monitoringWorkShopName -l $location --enabled-for-template-deployment true
 
 #Step 4: Add password as a secret.  Use a password that meets the azure pwd police like P@ssw0rd123!!
