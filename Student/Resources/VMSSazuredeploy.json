@@ -398,66 +398,6 @@
             }
         },
         {
-            "apiVersion": "2015-06-15",
-            "type": "Microsoft.Network/networkSecurityGroups",
-            "name": "[variables('aksNSGName')]",
-            "location": "[parameters('location')]",
-            "tags": {
-                "displayName": "aksNSG"
-            },
-            "properties": {
-                "securityRules": [
-                    {
-                        "name": "web_rule",
-                        "properties": {
-                            "description": "Allow WEB",
-                            "protocol": "Tcp",
-                            "sourcePortRange": "*",
-                            "destinationPortRange": "80",
-                            "sourceAddressPrefix": "Internet",
-                            "destinationAddressPrefix": "*",
-                            "access": "Allow",
-                            "priority": 101,
-                            "direction": "Inbound"
-                        }
-                    }
-                ]
-            }
-        },
-        {
-            "type": "Microsoft.Network/networkSecurityGroups/providers/diagnosticSettings",
-            "apiVersion": "2017-05-01-preview",
-            "name": "[concat(variables('aksNSGName'), '/', 'Microsoft.Insights/setForSecurity')]",
-            "location": "[resourceGroup().location]",
-            "dependsOn": [
-                "[resourceId('Microsoft.Network/networkSecurityGroups', variables('aksNSGName'))]",
-                "[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName'))]",
-                "LogAnalyticsDeployment"
-            ],
-            "properties": {
-                "workspaceId": "[reference('LogAnalyticsDeployment').outputs.LAresourceID.value]",
-                "storageAccountId": "[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName'))]",
-                "logs": [
-                    {
-                        "category": "NetworkSecurityGroupEvent",
-                        "enabled": true,
-                        "retentionPolicy": {
-                            "days": "[parameters('retentionPolicy')]",
-                            "enabled": true
-                        }
-                    },
-                    {
-                        "category": "NetworkSecurityGroupRuleCounter",
-                        "enabled": true,
-                        "retentionPolicy": {
-                            "days": "[parameters('retentionPolicy')]",
-                            "enabled": true
-                        }
-                    }
-                ]
-            }
-        },
-        {
             "type": "Microsoft.Network/networkSecurityGroups",
             "apiVersion": "2015-06-15",
             "name": "[variables('dbNSGName')]",
