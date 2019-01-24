@@ -22,16 +22,20 @@
 
 ### 1.	Please review the following content before the event
 [Azure Monitor E2E w/ Announcements](https://myignite.techcommunity.microsoft.com/sessions/65571)
+
 [Azure Monitor for VMs/Containers & Log Analytics](https://myignite.techcommunity.microsoft.com/sessions/65782)
+
 [Continuous Monitoring for DevOps](https://myignite.techcommunity.microsoft.com/sessions/66593)
+
 [Network Monitoring](https://myignite.techcommunity.microsoft.com/sessions/66293)
+
 [Azure Monitor Telemetry & ITSM/SIEM Partners](https://myignite.techcommunity.microsoft.com/sessions/66187)
 
 ### 2.	Attendees have access to an Azure Subscription where they can each deploy the provided ARM template that will build a very detailed infrastructure to monitor.  This includes the Vnet, subnets, NSG(s), LB(s), NAT rules, scales set and a fully functional .NET Core Application (eShopOnWeb) to monitor.
 ### 3.	Attendees should have a level 200-300 understanding of the Azure platform.  Understand concepts like PowerShell, Azure Cli, ARM, resource groups, RBAC, network, storage, compute, scale sets, virtual machines and security.  Previous experience working with ARM templates is recommended.
 ### 4.	Access to a machine with Visual Studio Code and the Azure PowerShell Modules loaded or Azure CLI. VS Code ARM and PowerShell extensions should be configured.
 
-![alt text](https://raw.githubusercontent.com/rkuehfus/pre-ready-2019-H/master/monitoringhackdiagram.png)
+![alt text](https://raw.githubusercontent.com/rkuehfus/pre-ready-2019-H1/master/monitoringhackdiagram.png)
 
 # Agenda
 
