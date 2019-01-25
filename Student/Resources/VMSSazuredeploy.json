@@ -207,7 +207,6 @@
         "aksSubnetPrefix": "10.0.3.0/24",
         "feNSGName": "feNsg",
         "dbNSGName": "dbNsg",
-        "aksNSGName": "aksNsg",
         "sqlSrvDBName": "[concat(parameters('envPrefixName'), 'sqlSrv16')]",
         "sqlVmSize": "[parameters('sqlVMSize')]",
         "sqlSrvDBNicName": "[concat(variables('sqlSrvDBName'), 'Nic')]",
@@ -537,8 +536,7 @@
             "location": "[resourceGroup().location]",
             "dependsOn": [
                 "[concat('Microsoft.Network/networkSecurityGroups/', variables('feNSGName'))]",
-                "[concat('Microsoft.Network/networkSecurityGroups/', variables('dbNSGName'))]",
-                "[concat('Microsoft.Network/networkSecurityGroups/', variables('aksNSGName'))]"
+                "[concat('Microsoft.Network/networkSecurityGroups/', variables('dbNSGName'))]"
             ],
             "tags": {
                 "displayName": "VirtualNetwork"
@@ -571,10 +569,7 @@
                     {
                         "name": "aksSubnetName",
                         "properties": {
-                            "addressPrefix": "[variables('aksSubnetPrefix')]",
-                            "networkSecurityGroup": {
-                                "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('aksNSGName'))]"
-                            }
+                            "addressPrefix": "[variables('aksSubnetPrefix')]"
                         }
                     }
                 ]
@@ -626,9 +621,9 @@
             "type": "Microsoft.Compute/virtualMachines",
             "location": "[parameters('location')]",
             "apiVersion": "2017-03-30",
-            "identity": {  
-                "type": "SystemAssigned" 
-                },             
+            "identity": {
+                "type": "SystemAssigned"
+            },
             "dependsOn": [
                 "[concat('Microsoft.Network/networkInterfaces/', variables('sqlSrvDBNicName'))]",
                 "[concat('Microsoft.Network/publicIPAddresses/', variables('sqlPublicIP'))]"
