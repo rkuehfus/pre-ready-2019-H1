@@ -1,13 +1,13 @@
 #!/bin/bash
 
-#Azure CLI Commands to create an Azure Key Vault and deployment for Monitoring Hackathon
+#Azure CLI Commands to create an Azure Key Vault and deployment for Ready Monitoring Workshop
 #Tip: Show the Integrated Terminal from View\Integrated Terminal or Ctrl+`
 #Tip: highlight a line, press Ctrl+Shift+P and then "Terminal: Run Selected Text in Active Terminal" to run the line of code!
 
 #Step 1: Use a name no longer then five charactors all LOWERCASE.  Your initials would work well if working in the same sub as others.
 declare monitoringWorkShopName="yourinitialshere"
-declare location="eastus"
-declare sshkeypath="<path>" # this is the path where your ssh keys will be generated and stored.
+declare location="eastus" #Note: This location has been selected because Azure Monitor Preview is enabled here.
+declare sshkeypath="<path>" #Note: Make sure this path exists in the Azure Cloud Shell. this is the path where your ssh keys will be generated and stored.
 
 #Step 2: Create ResourceGroup after updating the location to one of your choice. Use get-AzureRmLocation to see a list
 #Create a new Resource Group with YOUR name!
