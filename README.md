@@ -8,7 +8,7 @@
 
 [Challenges](https://github.com/rkuehfus/pre-ready-2019-H1/blob/master/Student/Guides/Challenges.pptx?raw=true)
 
-[Proctors Guide](https://github.com/rkuehfus/pre-ready-2019-H1/blob/master/Host/Guides/Proctors%20Guide.docx?raw=true)
+[Proctors Guide](https://github.com/rkuehfus/pre-ready-2019-H1/blob/master/Host/Proctors%20Guide.docx?raw=true)
 
 ## Outcome
 
