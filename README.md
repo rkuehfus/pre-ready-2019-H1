@@ -39,9 +39,9 @@
 
 # Agenda
 
-### 9 – 9:30 AM: Kickoff & Introductions
+### 8:30 – 9:00 AM: Kickoff & Introductions
 
-### 9:30  - 10:30 AM: Azure Monitor Metrics & Alerts Challenge
+### 9:00  - 10:30 AM: Azure Monitor Metrics & Alerts Challenge
 
 ### 10:30 - 10:45 AM: Break
 
