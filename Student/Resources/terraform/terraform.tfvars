@@ -1,4 +1,4 @@
-aks_arm_client_id = "<Enter client_Id here>" # the SPN for AKS (its pwd is in VMPassword secret in kv)
+aks_arm_client_id = "<Enter the SPN Application Id here>" # the SPN for AKS (its pwd is in VMPassword secret in kv)
 la_workspace_name = "<Enter Log Analytics existing Workspace name here>"
 la_resource_group = "<Enter Resourcegroup Name here>"
 keyvault_uri = "https://<Keyvault Name here>.vault.azure.net/"
