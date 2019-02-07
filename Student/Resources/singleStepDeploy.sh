@@ -8,7 +8,7 @@
 declare monitoringWorkShopName="yourinitialshere"
 declare location="eastus" #Note: This location has been selected because Azure Monitor Preview is enabled here.
 declare sshkeypath="<path>" #Note: Make sure this path exists in the Azure Cloud Shell. this is the path where your ssh keys will be generated and stored.
-
+declare prefix=$monitoringWorkShopName
 #Step 2: Create ResourceGroup after updating the location to one of your choice. Use get-AzureRmLocation to see a list
 #Create a new Resource Group with YOUR name!
 az group create --name $monitoringWorkShopName -l $location
