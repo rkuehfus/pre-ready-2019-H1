@@ -43,7 +43,7 @@ cd pre-ready-2019-H1/Student/Resources
 - Open this directory in vscode in the cloudshell
 
     ` code . `
-
+![openvscode](images/vscode.gif)
 - select and edit the `singleStepDeploy.sh` file
     - Replace `"yourinitialshere"` in line 8, with  a unique 4 letter **lowercase** alpha-numeric value. (e.g. rtl76)
     - Replace `"sshkeypath"` in line 9, with the actual path in your cloud shell (e.g.`/home/subramani/clouddrive/pre-ready-2019-H1/Student/Resources/`)
