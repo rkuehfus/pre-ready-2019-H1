@@ -9,6 +9,8 @@ declare monitoringWorkShopName="yourinitialshere"
 declare location="eastus" #Note: This location has been selected because Azure Monitor Preview is enabled here.
 declare sshkeypath="<path>" #Note: Make sure this path exists in the Azure Cloud Shell. this is the path where your ssh keys will be generated and stored.
 declare prefix=$monitoringWorkShopName
+declare subscriptionid=$(az account show --query id -o tsv)
+
 #Step 2: Create ResourceGroup after updating the location to one of your choice. Use get-AzureRmLocation to see a list
 #Create a new Resource Group with YOUR name!
 az group create --name $monitoringWorkShopName -l $location
@@ -42,6 +44,10 @@ sed -i 's@<paste your vault resourceId here>@'"$keyvault_id"'@g' ./azuredeploy.p
 
 sed -i 's@<Enter the SPN Application Id here>@'"$aks_arm_client_id"'@g' ./terraform/terraform.tfvars
 sed -i 's@https://<Keyvault Name here>.vault.azure.net/@'"$keyvault_uri"'@g' ./terraform/terraform.tfvars
+sed -i 's@<Enter Log Analytics existing Workspace name here>@'"$prefix"'@g' ./terraform/terraform.tfvars
+sed -i 's@<Enter Resourcegroup Name Here>@'"$prefix"'@g' ./terraform/terraform.tfvars
+sed -i 's@<Enter Resourcegroup Name here>@'"$prefix"'@g' ./terraform/terraform.tfvars
+sed -i 's@<Enter Subscription ID here>@'"$subscriptionid"'@g' ./terraform/terraform.tfvars
 
 #az keyvault show --name $monitoringWorkShopVaultName -o json
 
