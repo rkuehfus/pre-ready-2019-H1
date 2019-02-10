@@ -44,7 +44,7 @@ sed -i 's@<paste your vault resourceId here>@'"$keyvault_id"'@g' ./azuredeploy.p
 
 sed -i 's@<Enter the SPN Application Id here>@'"$aks_arm_client_id"'@g' ./terraform/terraform.tfvars
 sed -i 's@https://<Keyvault Name here>.vault.azure.net/@'"$keyvault_uri"'@g' ./terraform/terraform.tfvars
-sed -i 's@<Enter Log Analytics existing Workspace name here>@'"$prefix"'@g' ./terraform/terraform.tfvars
+sed -i 's@<Enter Log Analytics existing Workspace name here>@'"$prefix""hacklogworkspace"'@g' ./terraform/terraform.tfvars
 sed -i 's@<Enter Resourcegroup Name Here>@'"$prefix"'@g' ./terraform/terraform.tfvars
 sed -i 's@<Enter Resourcegroup Name here>@'"$prefix"'@g' ./terraform/terraform.tfvars
 sed -i 's@<Enter Subscription ID here>@'"$subscriptionid"'@g' ./terraform/terraform.tfvars
