@@ -38,3 +38,15 @@ az keyvault show --name $monitoringWorkShopVaultName -o json
 #Note: This will deploy VMs using DS3_v2 series VMs.  By default a subscription is limited to 10 cores of DS Series per region.  You may have to request more cores or
 # choice another region if you run into quota errors on your deployment.  Also feel free to modify the ARM template to use a different VM Series.
 az group deployment create --name monitoringWorkShopDeployment -g $monitoringWorkShopName --template-file VMSSazuredeploy.json --parameters @azuredeploy.parameters.json
+
+#Step 8: Once the initial deployment is complete we now need to deploy the AKS Cluster.  
+#Note: As its more then likely you had to open a new cloud shell rerun step 1 to set the variables 
+az group create --name $monitoringWorkShopName"-AKS" -l $location
+
+#Find your Service Principal Object ID
+az ad sp show --id 'enter AppId here' --query objectId
+
+#Update the aksdeploy.parameters.json parameters file with the envPrefixName, existingServicePrincipalObjectId, existingServicePrincipalClientId, and existingServicePrincipalClientSecret
+#Run deployment below after updating and SAVING the parameter file
+#Note: If deploying using Cloud Shell copy the two json files to the cloud shell
+az group deployment create --name aksmonitoringWorkShopDeployment -g $monitoringWorkShopName"-AKS" --template-file aksdeploy.json --parameters aksdeploy.parameters.json
