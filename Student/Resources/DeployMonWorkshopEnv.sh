@@ -50,3 +50,13 @@ az ad sp show --id 'enter AppId here' --query objectId
 #Run deployment below after updating and SAVING the parameter file
 #Note: If deploying using Cloud Shell copy the two json files to the cloud shell
 az group deployment create --name aksmonitoringWorkShopDeployment -g $monitoringWorkShopName"-AKS" --template-file aksdeploy.json --parameters aksdeploy.parameters.json
+
+#Once the AKS cluster is deployed and because we enabled Kubernetes 
+#RBAC authorization, you will need to apply cluster role binding to use Live Logs
+
+#Connect to your cluster
+az aks get-credentials --resource-group $monitoringWorkShopName"-AKS" --name $monitoringWorkShopName"aksdemo"
+#use this to test your connection
+kubectl get nodes
+#deploy the cluster role bindings
+kubectl create -f LogReaderRBAC.yaml
