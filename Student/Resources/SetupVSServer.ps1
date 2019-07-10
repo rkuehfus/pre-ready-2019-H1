@@ -3,7 +3,7 @@ param (
     [string]$SQLpassword
 )
 
-# Install Microsoft .Net Core 2.2.101
+# Install Microsoft .Net Core 2.2.108
 $exeDotNetTemp = [System.IO.Path]::GetTempPath().ToString() + "dotnet-sdk-2.2.108-win-x64.exe"
 if (Test-Path $exeDotNetTemp) { Remove-Item $exeDotNetTemp -Force }
 # Download file from Microsoft Downloads and save to local temp file (%LocalAppData%/Temp/2)
@@ -66,6 +66,9 @@ $NewContent = @()
     $NewContent += $Content[$_]
 }
 $NewContent | Out-File $ManageControllerfile -Force
+
+#Configure Windows Firewall for File Sharing
+netsh advfirewall firewall set rule group="File and Printer Sharing" new enable=Yes
 
 #Configure eShoponWeb application
 # Run dotnet restore with arguments
