@@ -92,12 +92,12 @@ $proc | Wait-Process
 # Build Project and publish to a folder
 # Share folder to vmadmin and SYSTEM
 New-Item -ItemType directory -Path C:\eShopPub
-New-Item -ItemType directory -Path C:\eShopPub\site
-New-SmbShare -Name "eShopPub" -Path "C:\eShopPub" -FullAccess $env:computername"\vmadmin"
+New-Item -ItemType directory -Path C:\eShopPub\wwwroot
+New-SmbShare -Name "eShopPub" -Path "C:\eShopPub\wwwroot" -FullAccess $env:computername"\vmadmin"
 Grant-SmbShareAccess -Name "eShopPub" -AccountName SYSTEM -AccessRight Full -Force
 Grant-SmbShareAccess -Name "eShopPub" -AccountName Everyone -AccessRight Full -Force
 
 # Run dotnet publish to to publish files to our share created above
 $eShopWebDestination = "C:\eshoponweb\eShopOnWeb-master\src\Web"
-$proc = (Start-Process -FilePath 'C:\Program Files\dotnet\dotnet.exe' -ArgumentList ('publish','--output','C:\eShopPub') -WorkingDirectory $eShopWebDestination -Passthru -RedirectStandardOutput "c:\windows\temp\dotnetpuboutput.txt")
+$proc = (Start-Process -FilePath 'C:\Program Files\dotnet\dotnet.exe' -ArgumentList ('publish','--output','C:\eShopPub\wwwroot\') -WorkingDirectory $eShopWebDestination -Passthru -RedirectStandardOutput "c:\windows\temp\dotnetpuboutput.txt")
 $proc | Wait-Process
