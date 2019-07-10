@@ -16,7 +16,7 @@
         "keyVault": {
           "id": "<paste your vault resourceId here>"
         },
-        "secretName": "VMPassword"
+        "secretName": "SPPassword"
       }
     }
   }
