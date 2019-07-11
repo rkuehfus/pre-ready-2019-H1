@@ -55,7 +55,7 @@ Stop-Process -Name Explorer -Force
 # Copy eShoponWeb from Published Share and restart IIS
 $SharePath = '\\'+$VSServerName+'\eShopPub'
 New-SmbMapping -LocalPath v: -RemotePath $SharePath -UserName $username -Password $password -Verbose >> c:\windows\temp\MapSetupWebServers.log
-Copy-Item "V:\wwwroot" -Destination "C:\inetpub\wwwroot\" -Recurse -Force -Verbose >> c:\windows\temp\copySetupWebServers.log
+Copy-Item "V:\wwwroot" -Destination "C:\inetpub\" -Recurse -Force -Verbose >> c:\windows\temp\copySetupWebServers.log
 
 
 #Restart iis
