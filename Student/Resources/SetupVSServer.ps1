@@ -93,7 +93,7 @@ $proc | Wait-Process
 # Share folder to vmadmin and SYSTEM
 New-Item -ItemType directory -Path C:\eShopPub
 New-Item -ItemType directory -Path C:\eShopPub\wwwroot
-New-SmbShare -Name "eShopPub" -Path "C:\eShopPub\wwwroot" -FullAccess $env:computername"\vmadmin"
+New-SmbShare -Name "eShopPub" -Path "C:\eShopPub" -FullAccess $env:computername"\vmadmin"
 Grant-SmbShareAccess -Name "eShopPub" -AccountName SYSTEM -AccessRight Full -Force
 Grant-SmbShareAccess -Name "eShopPub" -AccountName Everyone -AccessRight Full -Force
 
