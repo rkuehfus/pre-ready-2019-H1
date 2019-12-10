@@ -4,11 +4,11 @@ param (
 )
 
 # Install Microsoft .Net Core 2.2.108
-$exeDotNetTemp = [System.IO.Path]::GetTempPath().ToString() + "dotnet-sdk-2.2.108-win-x64.exe"
+$exeDotNetTemp = [System.IO.Path]::GetTempPath().ToString() + "dotnet-sdk-3.0.101-win-x64.exe"
 if (Test-Path $exeDotNetTemp) { Remove-Item $exeDotNetTemp -Force }
 # Download file from Microsoft Downloads and save to local temp file (%LocalAppData%/Temp/2)
-$exeFileNetCore = [System.IO.Path]::GetTempFileName() | Rename-Item -NewName "dotnet-sdk-2.2.108-win-x64.exe" -PassThru
-Invoke-WebRequest -Uri "https://download.visualstudio.microsoft.com/download/pr/5c8fa4d8-75d2-4b25-9bb8-3b443490a8b4/41db362f54a9de23309dd8d0fd22551a/dotnet-sdk-2.2.108-win-x64.exe" -OutFile $exeFileNetCore
+$exeFileNetCore = [System.IO.Path]::GetTempFileName() | Rename-Item -NewName "dotnet-sdk-3.0.101-win-x64.exe" -PassThru
+Invoke-WebRequest -Uri "https://download.visualstudio.microsoft.com/download/pr/66adfd75-9c1d-4e44-8d9c-cdc0cbc41104/5288b628601e30b0fa10d64fdaf64287/dotnet-sdk-3.0.101-win-x64.exe" -OutFile $exeFileNetCore
 # Run the exe with arguments
 $proc = (Start-Process -FilePath $exeFileNetCore.Name.ToString() -ArgumentList ('/install','/quiet') -WorkingDirectory $exeFileNetCore.Directory.ToString() -Passthru)
 $proc | Wait-Process
