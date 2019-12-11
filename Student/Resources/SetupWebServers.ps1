@@ -34,12 +34,12 @@ $proc = (Start-Process -file msiexec -arg $arguments -Passthru)
 $proc | Wait-Process
 Get-Content $logFile
 
-# Install Microsoft .Net Core Hosting 2.2.6
-$exeDotNetTemp = [System.IO.Path]::GetTempPath().ToString() + "aspnetcore-runtime-3.0.1-win-x64.exe"
+# Install Microsoft .Net Core Hosting 3.0.1
+$exeDotNetTemp = [System.IO.Path]::GetTempPath().ToString() + "dotnet-hosting-3.0.1-win.exe"
 if (Test-Path $exeDotNetTemp) { Remove-Item $exeDotNetTemp -Force }
 # Download file from Microsoft Downloads and save to local temp file (%LocalAppData%/Temp/2)
-$exeFileNetCore = [System.IO.Path]::GetTempFileName() | Rename-Item -NewName "aspnetcore-runtime-3.0.1-win-x64.exe" -PassThru
-Invoke-WebRequest -Uri "https://download.visualstudio.microsoft.com/download/pr/562bf74b-103e-4ae8-9729-135cb0f20b10/bde260804155a67038e0913a240c36a2/aspnetcore-runtime-3.0.1-win-x64.exe" -OutFile $exeFileNetCore
+$exeFileNetCore = [System.IO.Path]::GetTempFileName() | Rename-Item -NewName "dotnet-hosting-3.0.1-win.exe" -PassThru
+Invoke-WebRequest -Uri "https://download.visualstudio.microsoft.com/download/pr/32b71802-0b4d-4064-a7e6-083b5155d3b1/080cf60a5c06be4ed27e2eac6c693f2f/dotnet-hosting-3.0.1-win.exe" -OutFile $exeFileNetCore
 # Run the exe with arguments
 $proc = (Start-Process -FilePath $exeFileNetCore.Name.ToString() -ArgumentList ('/install','/quiet') -WorkingDirectory $exeFileNetCore.Directory.ToString() -Passthru)
 $proc | Wait-Process
