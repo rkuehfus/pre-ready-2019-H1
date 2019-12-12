@@ -32,13 +32,24 @@ $Destination = "C:\eshoponweb"
 Add-Type -assembly "system.io.compression.filesystem" -PassThru
 [io.compression.zipfile]::ExtractToDirectory($BackUpPath, $destination)
 
-#Update eShopOnWeb project to use SQL Server
+#old Update eShopOnWeb project to use SQL Server
+#old modify Startup.cs
+#old $Startupfile = 'C:\eshoponweb\eShopOnWeb-master\src\Web\Startup.cs'
+#old $find = '            ConfigureInMemoryDatabases(services);'
+#old $replace = '            //ConfigureInMemoryDatabases(services);'
+#old (Get-Content $Startupfile).replace($find, $replace) | Set-Content $Startupfile -Force
+#old $find1 = '            // ConfigureProductionServices(services);'
+#old $replace1 = '            ConfigureProductionServices(services);'
+#old (Get-Content $Startupfile).replace($find1, $replace1) | Set-Content $Startupfile -Force
+
+#Modified version of Update eShopOnWeb project to use SQL Server
 #modify Startup.cs
 $Startupfile = 'C:\eshoponweb\eShopOnWeb-master\src\Web\Startup.cs'
-$find = '            ConfigureInMemoryDatabases(services);'
-$replace = '            //ConfigureInMemoryDatabases(services);'
+# Next two lines are no longer required.
+#$find = '            ConfigureInMemoryDatabases(services);'
+#$replace = '            //ConfigureInMemoryDatabases(services);'
 (Get-Content $Startupfile).replace($find, $replace) | Set-Content $Startupfile -Force
-$find1 = '            // ConfigureProductionServices(services);'
+$find1 = '            //ConfigureProductionServices(services);'
 $replace1 = '            ConfigureProductionServices(services);'
 (Get-Content $Startupfile).replace($find1, $replace1) | Set-Content $Startupfile -Force
 
