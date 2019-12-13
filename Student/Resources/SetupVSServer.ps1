@@ -80,14 +80,15 @@ $NewContent | Out-File $ManageControllerfile -Force
 #Configure Windows Firewall for File Sharing
 netsh advfirewall firewall set rule group="File and Printer Sharing" new enable=Yes
 
-#This is the addition for dotnet tool restore command to be placed after Run dotnet restore with arguments and before Configure CatalogDb
-$proc = (Start-Process -FilePath 'C:\Program Files\dotnet\dotnet.exe' -ArgumentList ('tool','restore') -WorkingDirectory $eShopWebDestination -RedirectStandardOutput "c:\windows\temp\dotnettoolrestoreoutput.txt" -Passthru)
-$proc | Wait-Process
 
 #Configure eShoponWeb application
 # Run dotnet restore with arguments
 $eShopWebDestination = "C:\eshoponweb\eShopOnWeb-master\src\Web"
 $proc = (Start-Process -FilePath 'C:\Program Files\dotnet\dotnet.exe' -ArgumentList ('restore') -WorkingDirectory $eShopWebDestination -RedirectStandardOutput "c:\windows\temp\dotnetrestoreoutput.txt" -Passthru)
+$proc | Wait-Process
+
+#This is the addition for dotnet tool restore command to be placed after Run dotnet restore with arguments and before Configure CatalogDb
+$proc = (Start-Process -FilePath 'C:\Program Files\dotnet\dotnet.exe' -ArgumentList ('tool','restore') -WorkingDirectory $eShopWebDestination -RedirectStandardOutput "c:\windows\temp\dotnettoolrestoreoutput.txt" -Passthru)
 $proc | Wait-Process
 
 #Configure CatalogDb
