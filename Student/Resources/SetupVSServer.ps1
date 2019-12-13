@@ -45,9 +45,8 @@ Add-Type -assembly "system.io.compression.filesystem" -PassThru
 #Modified version of Update eShopOnWeb project to use SQL Server
 #modify Startup.cs
 $Startupfile = 'C:\eshoponweb\eShopOnWeb-master\src\Web\Startup.cs'
-# Next two lines are no longer required.
-#$find = '            ConfigureInMemoryDatabases(services);'
-#$replace = '            //ConfigureInMemoryDatabases(services);'
+$find = '            ConfigureInMemoryDatabases(services);'
+$replace = '            //ConfigureInMemoryDatabases(services);'
 (Get-Content $Startupfile).replace($find, $replace) | Set-Content $Startupfile -Force
 $find1 = '            //ConfigureProductionServices(services);'
 $replace1 = '            ConfigureProductionServices(services);'
@@ -80,6 +79,10 @@ $NewContent | Out-File $ManageControllerfile -Force
 
 #Configure Windows Firewall for File Sharing
 netsh advfirewall firewall set rule group="File and Printer Sharing" new enable=Yes
+
+#This is the addition for dotnet tool restore command to be placed after Run dotnet restore with arguments and before Configure CatalogDb
+$proc = (Start-Process -FilePath 'C:\Program Files\dotnet\dotnet.exe' -ArgumentList ('tool','restore') -WorkingDirectory $eShopWebDestination -RedirectStandardOutput "c:\windows\temp\dotnettoolrestoreoutput.txt" -Passthru)
+$proc | Wait-Process
 
 #Configure eShoponWeb application
 # Run dotnet restore with arguments
